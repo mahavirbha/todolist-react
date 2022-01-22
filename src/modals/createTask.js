@@ -1,7 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from "reactstrap";
 
-const CreateTask = ({toggle,modal}) => {
+const CreateTask = ({toggle,modal, save}) => {
+
+    const [taskName,setTaskName] = useState('');
+    const [description,setDescription] = useState('');
+
+    const handleChange = (e) =>{
+        const {name, value} = e.target
+        if(name === "taskName"){
+            setTaskName(value);
+        }else{
+            setDescription(value);
+        }
+    }
+
+    const handleSave = () => {
+        let taskObj = {};
+        taskObj["Name"] = taskName;
+        taskObj["Description"] = description;
+        save(taskObj);
+    }
+
     return (
         <Modal isOpen={modal} toggle={toggle}>
             <ModalHeader toggle={toggle}>
@@ -11,17 +31,17 @@ const CreateTask = ({toggle,modal}) => {
                 <form>
                     <div className="form-group">
                         <label>Task Name</label>
-                        <input type='text' className="form-control"/>
+                        <input name="taskName" type='text' className="form-control" value={taskName} onChange={handleChange} />
                     </div>
                     <br/>
                     <div className="form-group">
                         <label>Description</label>
-                        <textarea rows="5" className="form-control"></textarea>
+                        <textarea name="description" rows="5" className="form-control" value={description} onChange={handleChange}></textarea>
                     </div>
                 </form>
             </ModalBody>
             <ModalFooter>
-                <Button color="primary" onClick={toggle}>  Create </Button>
+                <Button color="primary" onClick={handleSave}>  Create </Button>
                 {' '}
                 <Button onClick={toggle}>Cancel</Button>
             </ModalFooter>
