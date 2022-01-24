@@ -34,7 +34,7 @@ const CreateTask = ({toggle,modal, save}) => {
                         <input name="taskName" type='text' className="form-control" value={taskName} onChange={handleChange} />
                     </div>
                     <br/>
-                    <div className="form-group">
+                    <div  className="form-group">
                         <label>Description</label>
                         <textarea name="description" rows="5" className="form-control" value={description} onChange={handleChange}></textarea>
                     </div>
