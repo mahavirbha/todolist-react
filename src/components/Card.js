@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
+import EditTask from "../modals/editTask";
 
-const Card = ({taskObj,index}) => {
+const Card = ({taskObj,index, deleteTask, updateListArray}) => {
+    const  [modal,setModal] = useState();
+
     const  colors = [
         {
           primaryColor: "#9e0606",
@@ -31,6 +34,19 @@ const Card = ({taskObj,index}) => {
             secondaryColor: "#7eb354"
         }
     ]
+
+    const toggle = () => {
+        setModal(!modal);
+    }
+
+    const updateTask = (obj) => {
+        updateListArray(obj, index);
+    }
+
+    const handleDelete = () => {
+        deleteTask(index);
+    }
+
     return (
         <div className="card-wrapper mr-5">
             <div className="card-top" style={{"background-color": colors[index%7].primaryColor}}></div>
@@ -39,10 +55,11 @@ const Card = ({taskObj,index}) => {
                 <div className="objCss mt-2">{taskObj.Description}</div>
 
                 <div style={{"position":"absolute", "right":"10px", "bottom":"0px"}}>
-                    <i className="far fa-edit m-3 btnIn" style={{"color": colors[index%7].primaryColor}}></i>
-                    <i className="fas fa-trash-alt btnIn" style={{"color": colors[index%7].primaryColor}}></i>
+                    <i className="far fa-edit m-3 btnIn" style={{"color": colors[index%7].primaryColor, "cursor": "pointer"}} onClick={() => setModal(true)}></i>
+                    <i className="fas fa-trash-alt btnIn" style={{"color": colors[index%7].primaryColor, "cursor": "pointer"}} onClick={handleDelete}></i>
                 </div>
             </div>
+            <EditTask modal={modal} toggle={toggle} updateTask={updateTask} taskObj = {taskObj} />
         </div>
     );
 };
